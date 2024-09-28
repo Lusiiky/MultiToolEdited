@@ -68,6 +68,7 @@ export default function Page() {
                 {paths &&
                     Object.entries(paths.versions).map(([key, value]) => (
                         <motion.div
+                            key={key}
                             initial={{ opacity: 0, x: 300 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{
@@ -77,7 +78,7 @@ export default function Page() {
                             }}
                             className="flex min-h-screen flex-col"
                         >
-                            <Card className="col-span-1" key={key}>
+                            <Card className="col-span-1">
                                 <CardHeader>
                                     <CardTitle className="flex items-center gap-2">
                                         <span className="relative inline-flex rounded-full h-3 w-3 bg-primary">
