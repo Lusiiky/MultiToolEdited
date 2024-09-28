@@ -16,10 +16,10 @@ Ce projet est un template [Next.js](https://nextjs.org/) intégré avec [Tauri](
 
 Assurez-vous d'avoir installé les dépendances suivantes sur votre machine :
 
-- Node.js
-- Pnpm (Si vous utilisez un autre comme Yarn, des changements devront être fait dans le [Makefile](./Makefile))
-- Rust et Cargo (pour Tauri)
-- Make pour les commandes du [Makefile](./Makefile)
+-   Node.js
+-   Pnpm (Si vous utilisez un autre comme Yarn, des changements devront être fait dans le [Makefile](./Makefile))
+-   Rust et Cargo (pour Tauri)
+-   Make pour les commandes du [Makefile](./Makefile)
 
 ### Installation
 
@@ -53,23 +53,23 @@ make dev
 
 ### Autres commandes Makefile
 
-- Pour formater le code :
+-   Pour formater le code :
 
-  ```bash
-  make format
-  ```
+    ```bash
+    make format
+    ```
 
-- Pour lancer l'analyse statique du code :
+-   Pour lancer l'analyse statique du code :
 
-  ```bash
-  make lint
-  ```
+    ```bash
+    make lint
+    ```
 
-- Pour formater et analyser le code :
+-   Pour formater et analyser le code :
 
-  ```bash
-  make check
-  ```
+    ```bash
+    make check
+    ```
 
 ## Licence
 

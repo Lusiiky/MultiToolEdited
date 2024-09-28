@@ -2,11 +2,17 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 mod events;
+mod scripts;
 
 use events::{create_menu, handle_menu_event};
-
+use scripts::pathfinder::get_star_citizen_versions;
+use scripts::translations_links::get_translations;
 fn main() {
   tauri::Builder::default()
+    .invoke_handler(tauri::generate_handler![
+      get_star_citizen_versions,
+      get_translations
+    ])
     .menu(create_menu())
     .on_menu_event(|event| handle_menu_event(&event.window(), event.menu_item_id()))  
     .run(tauri::generate_context!())

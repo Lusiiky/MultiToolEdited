@@ -73,8 +73,8 @@
         "minHeight": 600,
         "resizable": true,
         "title": "tauri-designed-template",
-        "width": 950,
-        "minWidth": 850,
+        "width": 1050,
+        "minWidth": 1050,
         "decorations": false
       }
     ]

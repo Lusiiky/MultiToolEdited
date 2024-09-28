@@ -1,4 +1,3 @@
-// TODO : Add the theme store
 import { create } from "zustand";
 
 export interface ThemeStore {

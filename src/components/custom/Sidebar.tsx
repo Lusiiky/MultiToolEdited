@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { PickerExample } from "./ColorPicker";
+import { ColorPicker } from "./ColorPicker";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CustomMenu } from "@/components/custom/CustomMenu";
@@ -174,7 +174,7 @@ export const Sidebar = () => {
                                                     <p className="min-w-[100px]">
                                                         Color Picker :{" "}
                                                     </p>
-                                                    <PickerExample />
+                                                    <ColorPicker />
                                                 </li>
                                             </ul>
                                         </div>

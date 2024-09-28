@@ -1,5 +1,8 @@
+// GradientPicker.tsx
+
 "use client";
 
+import { useState, forwardRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -7,42 +10,61 @@ import {
     PopoverContent,
     PopoverTrigger,
 } from "@/components/ui/popover";
-import { Tabs, TabsContent } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { cn } from "@/lib/utils";
 import { Paintbrush } from "lucide-react";
-import { useMemo, useEffect } from "react";
-import { hexToHSL } from "@/utils/hexToHsl";
-
+import { applyTheme } from "@/utils/CustomThemeProvider";
 import { useThemeStore } from "@/stores/themeStore";
+import { HexColorPicker } from "react-colorful";
 
-export function PickerExample() {
-    const { primaryColor } = useThemeStore();
+export function ColorPicker() {
+    const { primaryColor, setPrimaryColor } = useThemeStore();
 
-    useEffect(() => {
-        document.documentElement.style.setProperty(
-            "--primary",
-            hexToHSL(primaryColor),
-        );
-    }, [primaryColor]);
+    const handleColorChange = (color: string) => {
+        setPrimaryColor(color);
+        applyTheme(color);
+    };
 
-    return <GradientPicker primaryColor={primaryColor} />;
+    return (
+        <GradientPicker
+            primaryColor={primaryColor}
+            onColorChange={handleColorChange}
+        />
+    );
+}
+
+interface GradientPickerProps {
+    primaryColor: string;
+    onColorChange: (color: string) => void;
+    className?: string;
 }
 
 export function GradientPicker({
     primaryColor,
+    onColorChange,
     className,
-}: {
-    primaryColor: string;
-    className?: string;
-}) {
-    const { setPrimaryColor, primaryColorChoices } = useThemeStore();
+}: GradientPickerProps) {
+    const [tabValue, setTabValue] = useState("solid");
+    const [customColor, setCustomColor] = useState(primaryColor);
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
 
-    const defaultTab = useMemo(() => {
-        return "solid";
-    }, []);
+    const primaryColorChoices = ["#6463b6", "#eb25d8", "#FF5722", "#4A90E2"];
+
+    const handleCustomColorChange = (color: string) => {
+        setCustomColor(color);
+        onColorChange(color);
+    };
+
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.currentTarget.value;
+        setCustomColor(value);
+        if (/^#([0-9A-F]{3}){1,2}$/i.test(value)) {
+            onColorChange(value);
+        }
+    };
 
     return (
-        <Popover>
+        <Popover open={isPopoverOpen} onOpenChange={setIsPopoverOpen}>
             <PopoverTrigger asChild>
                 <Button
                     variant={"outline"}
@@ -55,61 +77,63 @@ export function GradientPicker({
                     <div className="w-full flex items-center gap-2">
                         {primaryColor ? (
                             <div
-                                className="h-4 w-4 rounded !bg-center !bg-cover transition-all"
+                                className="h-4 w-4 rounded"
                                 style={{ background: primaryColor }}
                             ></div>
                         ) : (
                             <Paintbrush className="h-4 w-4" />
                         )}
                         <div className="truncate flex-1">
-                            {primaryColor ? primaryColor : "Pick a color"}
+                            {primaryColor
+                                ? primaryColor
+                                : "Choisir une couleur"}
                         </div>
                     </div>
                 </Button>
             </PopoverTrigger>
-            <PopoverContent className="w-64">
-                <Tabs defaultValue={defaultTab} className="w-full">
+            <PopoverContent className="w-72">
+                <Tabs
+                    value={tabValue}
+                    onValueChange={setTabValue}
+                    className="w-full"
+                >
+                    <TabsList>
+                        <TabsTrigger value="solid">Couleurs</TabsTrigger>
+                        <TabsTrigger value="custom">Personnalisée</TabsTrigger>
+                    </TabsList>
                     <TabsContent
                         value="solid"
-                        className="flex flex-wrap gap-1 mt-2"
+                        className="flex flex-wrap gap-2 mt-2"
                     >
-                        {primaryColorChoices.map((s) => (
+                        {primaryColorChoices.map((color) => (
                             <div
-                                key={s}
-                                style={{ background: `hsl(${hexToHSL(s)})` }}
-                                className="rounded-md h-6 w-6 cursor-pointer active:scale-105"
-                                onClick={() => setPrimaryColor(s)}
+                                key={color}
+                                style={{ background: color }}
+                                className={cn(
+                                    "rounded-md h-8 w-8 cursor-pointer hover:scale-105 transition-transform",
+                                    primaryColor === color &&
+                                        "ring-2 ring-offset-2 ring-primary",
+                                )}
+                                onClick={() => onColorChange(color)}
                             />
                         ))}
                     </TabsContent>
+                    <TabsContent value="custom">
+                        <div className="mt-4">
+                            <HexColorPicker
+                                color={customColor}
+                                onChange={handleCustomColorChange}
+                            />
+                            <Input
+                                maxLength={7}
+                                value={customColor}
+                                onChange={handleInputChange}
+                                className="mt-2"
+                            />
+                        </div>
+                    </TabsContent>
                 </Tabs>
-
-                <Input
-                    id="custom"
-                    value={primaryColor}
-                    className="col-span-2 h-8 mt-4"
-                    onChange={(e) => setPrimaryColor(e.currentTarget.value)}
-                />
             </PopoverContent>
         </Popover>
     );
 }
-
-const GradientButton = ({
-    primaryColor,
-    children,
-}: {
-    primaryColor: string;
-    children: React.ReactNode;
-}) => {
-    return (
-        <div
-            className="p-0.5 rounded-md relative !bg-cover !bg-center transition-all"
-            style={{ background: primaryColor }}
-        >
-            <div className="bg-popover/80 rounded-md p-1 text-xs text-center">
-                {children}
-            </div>
-        </div>
-    );
-};
