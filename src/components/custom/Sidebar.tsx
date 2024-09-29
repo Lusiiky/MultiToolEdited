@@ -10,10 +10,8 @@ import { DarkModeSelector } from "@/components/custom/DarkModeSelector";
 
 import {
     Home,
-    Package,
     Settings,
-    ShoppingCart,
-    Users,
+    Languages,
     Maximize2,
     Minimize2,
 } from "lucide-react";
@@ -86,50 +84,14 @@ export const Sidebar = () => {
                             <TooltipProvider delayDuration={50}>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <ShoppingCart className="h-4 w-4" />
+                                        <Languages className="h-4 w-4" />
                                     </TooltipTrigger>
                                     <TooltipContent side="right">
-                                        <p>Page 1</p>
+                                        <p>Traduction</p>
                                     </TooltipContent>
                                 </Tooltip>
                             </TooltipProvider>
-                            {fullWidth && "Page 1"}
-                        </Link>
-                        <Link
-                            href="/page2"
-                            className={`${
-                                !fullWidth && "justify-center"
-                            } flex items-center gap-3 rounded-lg py-2 text-muted-foreground transition-all hover:text-primary`}
-                        >
-                            <TooltipProvider delayDuration={50}>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <Package className="h-4 w-4" />
-                                    </TooltipTrigger>
-                                    <TooltipContent side="right">
-                                        <p>Page 2</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                            {fullWidth && "Page 2"}
-                        </Link>
-                        <Link
-                            href="/page3"
-                            className={`${
-                                !fullWidth && "justify-center"
-                            } flex items-center gap-3 rounded-lg py-2 text-muted-foreground transition-all hover:text-primary`}
-                        >
-                            <TooltipProvider delayDuration={50}>
-                                <Tooltip>
-                                    <TooltipTrigger>
-                                        <Users className="h-4 w-4" />
-                                    </TooltipTrigger>
-                                    <TooltipContent side="right">
-                                        <p>Page 3</p>
-                                    </TooltipContent>
-                                </Tooltip>
-                            </TooltipProvider>
-                            {fullWidth && "Page 3"}
+                            {fullWidth && "Traduction"}
                         </Link>
                     </nav>
                     <div

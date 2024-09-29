@@ -82,8 +82,15 @@ fn get_game_channel_id(install_path: &str) -> String {
 }
 
 #[derive(Serialize)]
+pub struct VersionInfo {
+    pub path: String,
+    pub translated: bool,
+    pub up_to_date: bool,
+}
+
+#[derive(Serialize)]
 pub struct VersionPaths {
-    pub versions: HashMap<String, String>,
+    pub versions: HashMap<String, VersionInfo>,
 }
 
 #[command]
@@ -96,7 +103,11 @@ pub fn get_star_citizen_versions() -> VersionPaths {
     for path in &sc_install_paths {
         let version = get_game_channel_id(path);
         if version != "UNKNOWN" && !versions.contains_key(&version) {
-            versions.insert(version, path.clone());
+            versions.insert(version, VersionInfo {
+                path: path.clone(),
+                translated: false,
+                up_to_date: false,
+            });
         }
     }
 

@@ -1,9 +1,25 @@
 export interface GamePaths {
     versions: {
-        LIVE: string;
-        PTU?: string;
-        EPTU?: string;
-        TECHPREVIEW?: string;
+        LIVE: {
+            path: string;
+            translated: boolean;
+            up_to_date: boolean;
+        };
+        PTU?: {
+            path: string;
+            translated: boolean;
+            up_to_date: boolean;
+        };
+        EPTU?: {
+            path: string;
+            translated: boolean;
+            up_to_date: boolean;
+        };
+        TECHPREVIEW?: {
+            path: string;
+            translated: boolean;
+            up_to_date: boolean;
+        };
     };
 }
 
@@ -37,6 +53,13 @@ export const isLocalizationConfig = (
         typeof value.fr === "object"
     );
 };
+
+export interface TranslationsChoosen {
+    LIVE: string | null;
+    PTU: string | null;
+    EPTU: string | null;
+    TECHPREVIEW: string | null;
+}
 
 export const isGamePaths = (value: any): value is GamePaths => {
     return (
