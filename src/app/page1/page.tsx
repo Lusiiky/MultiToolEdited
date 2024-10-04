@@ -135,12 +135,12 @@ export default function Page() {
         CheckTranslationsState(paths).then(() => {
             setEarlyChecked(true);
         });
-    }, [paths]);    
+    });    
     
     useEffect(() => {
         if (!translationsSelected || !paths) return;
         CheckTranslationsState(paths!);
-    }, [translationsSelected]);
+    });
 
     const handleUpdateTranslation = async (versionPath: string, translationLink: string) => {
         invoke("update_translation", {path: versionPath, translationLink: translationLink, lang: defaultLanguage})

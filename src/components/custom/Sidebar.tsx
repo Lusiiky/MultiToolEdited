@@ -102,7 +102,7 @@ export const Sidebar = () => {
                         {fullWidth && (
                             <p className="text-xs text-muted-foreground text-nowrap">
                                 <span className="text-primary">
-                                    Software Name
+                                    Multitool beta
                                 </span>{" "}
                                 - by Onivoid
                             </p>

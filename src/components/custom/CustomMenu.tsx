@@ -5,7 +5,7 @@ import { DraggableRegion } from "@/components/custom/DraggableRegion";
 
 export const CustomMenu = ({ fullWidth }: { fullWidth: boolean }) => {
     return (
-        <>
+        <div>
             <DraggableRegion>
                 <div
                     className={`${
@@ -17,7 +17,7 @@ export const CustomMenu = ({ fullWidth }: { fullWidth: boolean }) => {
                     {fullWidth && (
                         <div className="flex items-center justify-center col-span-3 overflow-hidden">
                             <h1 className="font-bold uppercase text-primary text-nowrap">
-                                Software Name
+                                Multitool Beta
                             </h1>
                         </div>
                     )}
@@ -26,6 +26,6 @@ export const CustomMenu = ({ fullWidth }: { fullWidth: boolean }) => {
                     </div>
                 </div>
             </DraggableRegion>
-        </>
+        </div>
     );
 };
