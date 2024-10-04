@@ -32,6 +32,5 @@ jobs:
       with:
         artifacts: './src-tauri/**/*.exe, ./src-tauri/**/*.msi'
         token: ${{ secrets.GITHUB_TOKEN }}
-        release_name: 'Beta Release'
+        name: 'Beta Release'
         tag: 'beta'
-        release_notes: 'This is a beta release'
