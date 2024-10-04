@@ -18,14 +18,17 @@ jobs:
       with:
         node-version: '14'
 
+    - name: Install pnpm
+      run: npm install -g pnpm
+
     - name: Install dependencies
-      run: npm install
+      run: pnpm install
 
     - name: Install Tauri CLI
-      run: npm install -g @tauri-apps/cli
+      run: pnpm add -g @tauri-apps/cli
 
     - name: Build Tauri app for Windows
-      run: npm tauri build
+      run: pnpm tauri build
 
     - name: Create Release
       id: create_release
