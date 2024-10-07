@@ -15,7 +15,7 @@ export interface GamePaths {
             translated: boolean;
             up_to_date: boolean;
         };
-        TECHPREVIEW?: {
+        "TECH-PREVIEW"?: {
             path: string;
             translated: boolean;
             up_to_date: boolean;
@@ -58,7 +58,7 @@ export interface TranslationsChoosen {
     LIVE: string | null;
     PTU: string | null;
     EPTU: string | null;
-    TECHPREVIEW: string | null;
+    "TECH-PREVIEW": string | null;
 }
 
 export const isGamePaths = (value: any): value is GamePaths => {

@@ -8,13 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { CustomMenu } from "@/components/custom/CustomMenu";
 import { DarkModeSelector } from "@/components/custom/DarkModeSelector";
 
-import {
-    Home,
-    Settings,
-    Languages,
-    Maximize2,
-    Minimize2,
-} from "lucide-react";
+import { Home, Settings, Languages, Maximize2, Minimize2 } from "lucide-react";
 
 import {
     Dialog,
@@ -102,7 +96,7 @@ export const Sidebar = () => {
                         {fullWidth && (
                             <p className="text-xs text-muted-foreground text-nowrap">
                                 <span className="text-primary">
-                                    Software Name
+                                    Multitool beta
                                 </span>{" "}
                                 - by Onivoid
                             </p>
