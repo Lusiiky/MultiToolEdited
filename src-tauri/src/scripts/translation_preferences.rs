@@ -26,7 +26,7 @@ pub struct TranslationsSelected {
     ptu: Option<String>,
     #[serde(rename = "EPTU")]
     eptu: Option<String>,
-    #[serde(rename = "TECHPREVIEW")]
+    #[serde(rename = "TECH-PREVIEW")]
     techpreview: Option<String>,
 }
 
