@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --background: 241 100% 95%;
+    --background: 220, 14%, 96%;
     --foreground: 241 5% 0%;
     --card: 241 50% 90%;
     --card-foreground: 241 5% 10%;
@@ -30,7 +30,7 @@
     --chart-5: 27 87% 67%;
 }
 .dark {
-    --background: 241 50% 5%;
+    --background: 240, 10%, 4%;
     --foreground: 241 5% 90%;
     --card: 241 50% 0%;
     --card-foreground: 241 5% 90%;
@@ -63,5 +63,22 @@
     }
     main {
         @apply bg-background text-foreground;
+    }    
+    
+    *::-webkit-scrollbar-track {
+        background-color: transparent;
+        border-radius: 0.75rem;
+    }
+    *::-webkit-scrollbar {
+        width: 4px;
+        background-color: transparent;
+    }
+    *::-webkit-scrollbar-thumb {
+        background-color: rgb(113 113 122);
+        border-radius: 0.75rem;
+    }
+    .discordIcon {
+        @apply w-6 h-6;
+        src: url('../assets/svg/discord.svg');
     }
 }

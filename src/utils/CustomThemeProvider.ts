@@ -1,4 +1,4 @@
-// themeGenerator.ts
+import { invoke } from '@tauri-apps/api/tauri';
 
 // Fonction pour convertir une couleur hexadécimale en HSL
 function hexToHSL(hex: string): { h: number; s: number; l: number } {
@@ -75,7 +75,7 @@ function generateShadcnTheme(primaryColor: string): string {
     const primaryForeground = { h: 0, s: 0, l: 100 }; // Blanc
 
     // Calculer les autres variables
-    const background = { h: primaryHSL.h, s: 100, l: 95 };
+    //const background = { h: primaryHSL.h, s: 100, l: 95 };
     const foreground = { h: primaryHSL.h, s: 5, l: 0 };
     const card = { h: primaryHSL.h, s: 50, l: 90 };
     const cardForeground = { h: primaryHSL.h, s: 5, l: 10 };
@@ -104,7 +104,6 @@ function generateShadcnTheme(primaryColor: string): string {
     // Générer le thème CSS
     const theme = `
   :root  {
-    --background: ${formatHSL(background)};
     --foreground: ${formatHSL(foreground)};
     --card: ${formatHSL(card)};
     --card-foreground: ${formatHSL(cardForeground)};
@@ -126,9 +125,8 @@ function generateShadcnTheme(primaryColor: string): string {
     --radius: ${radius};
   }
   .dark  {
-    --background: ${formatHSL({ h: primaryHSL.h, s: 50, l: 5 })};
     --foreground: ${formatHSL({ h: primaryHSL.h, s: 5, l: 90 })};
-    --card: ${formatHSL({ h: primaryHSL.h, s: 50, l: 0 })};
+    --card: ${formatHSL({ h: primaryHSL.h, s: 50, l: 1 })};
     --card-foreground: ${formatHSL({ h: primaryHSL.h, s: 5, l: 90 })};
     --popover: ${formatHSL({ h: primaryHSL.h, s: 50, l: 5 })};
     --popover-foreground: ${formatHSL({ h: primaryHSL.h, s: 5, l: 90 })};
@@ -167,4 +165,17 @@ export function applyTheme(primaryColor: string): void {
     }
 
     styleElement.innerHTML = themeCSS;
+
+    invoke('save_theme_selected', { data: { primary_color: primaryColor } })
+    .then(() => console.log('Thème enregistré avec succès'))
+    .catch((error) => console.error('Erreur lors de l\'enregistrement du thème', error));
+}
+
+export function loadAndApplyTheme(): void {
+    invoke('load_theme_selected')
+        .then((value) => {
+            const theme = value as { primary_color: string };
+            applyTheme(theme.primary_color);
+        })
+        .catch((error) => console.error('Erreur lors du chargement du thème', error));
 }

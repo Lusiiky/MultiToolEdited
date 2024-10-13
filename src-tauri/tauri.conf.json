@@ -7,8 +7,8 @@
     "distDir": "../out"
   },
   "package": {
-    "productName": "tauri-designed-template",
-    "version": "0.1.0"
+    "productName": "MultiTool",
+    "version": "1.0.0"
   },
   "tauri": {
     "macOSPrivateApi": true,
@@ -24,12 +24,15 @@
         "unmaximize": true,
         "unminimize": true,
         "startDragging": true
+      },
+      "shell": {
+        "open": true
       }
     },
     "bundle": {
       "active": true,
-      "category": "DeveloperTool",
-      "copyright": "",
+      "category": "Utility",
+      "copyright": "@Onivoid - Logan Wilquin",
       "deb": {
         "depends": []
       },
@@ -43,20 +46,12 @@
       ],
       "identifier": "onivoid.fr",
       "longDescription": "",
-      "macOS": {
-        "entitlements": null,
-        "exceptionDomain": "",
-        "frameworks": [],
-        "providerShortName": null,
-        "signingIdentity": null
-      },
       "resources": [],
       "shortDescription": "",
-      "targets": "all",
       "windows": {
-        "certificateThumbprint": null,
-        "digestAlgorithm": "sha256",
-        "timestampUrl": ""
+        "webviewInstallMode": {
+          "type": "offlineInstaller"
+        }
       }
     },
     "security": {
@@ -67,15 +62,29 @@
     },
     "windows": [
       {
+        "title": "Multitool - Loading",
+        "width": 350,
+        "height": 400,
+        "decorations": false,
+        "transparent": true,
+        "resizable": false,
+        "center": true,
+        "url": "splash",
+        "label": "splashscreen"
+      },
+      {
+        "title": "Multitool",
+        "label": "main",
         "transparent": true,
         "fullscreen": false,
         "height": 700,
         "minHeight": 600,
         "resizable": true,
-        "title": "tauri-designed-template",
         "width": 1050,
         "minWidth": 1050,
-        "decorations": false
+        "decorations": false,
+        "center": true,
+        "visible": false
       }
     ]
   }

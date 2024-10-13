@@ -18,7 +18,7 @@ export const ControlMenu = () => {
     const close = async () => await appWindow?.close();
 
     return (
-        <div className="absolute right-4 top-4 flex gap-3">
+        <div className="absolute right-4 top-4 flex gap-3 z-100">
             <Button variant="ghost" size="menuButton" onClick={minimize}>
                 <Minus />
             </Button>

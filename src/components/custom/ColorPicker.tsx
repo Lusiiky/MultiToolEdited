@@ -98,7 +98,7 @@ export function GradientPicker({
                     className="w-full"
                 >
                     <TabsList>
-                        <TabsTrigger value="solid">Couleurs</TabsTrigger>
+                        <TabsTrigger value="solid">Par Défaut</TabsTrigger>
                         <TabsTrigger value="custom">Personnalisée</TabsTrigger>
                     </TabsList>
                     <TabsContent

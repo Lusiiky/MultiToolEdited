@@ -1,14 +1,18 @@
 "use client";
 
 import Link from "next/link";
+import { invoke } from '@tauri-apps/api/tauri';
 import { useState } from "react";
 import { ColorPicker } from "./ColorPicker";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
 import { CustomMenu } from "@/components/custom/CustomMenu";
 import { DarkModeSelector } from "@/components/custom/DarkModeSelector";
+import { DiscordIcon } from "@/components/custom/DiscordIcon";
 
-import { Home, Settings, Languages, Maximize2, Minimize2 } from "lucide-react";
+import { Home, Settings, Languages, Maximize2, Minimize2, Github } from "lucide-react";
+
+import appInfos from "@/utils/appInfos.json";
 
 import {
     Dialog,
@@ -28,7 +32,9 @@ import {
 
 export const Sidebar = () => {
     const [fullWidth, setFullWidth] = useState(false);
-
+    const openExternalLink = async (url: string) => {
+        await invoke('open_external', { url });
+    };
     return (
         <div
             className={`border-r bg-card relative transition-size duration-150 ${
@@ -51,11 +57,18 @@ export const Sidebar = () => {
                             !fullWidth && "gap-3"
                         } grid items-start text-sm font-medium px-4 pt-3`}
                     >
+                    {fullWidth && 
+                        <>
+                            <p className="text-primary font-medium">
+                                Pages
+                            </p>
+                        </>
+                    }
                         <Link
                             href="/"
                             className={`${
-                                !fullWidth && "justify-center"
-                            } flex items-center gap-3 rounded-lg py-2 text-muted-foreground transition-all hover:text-primary`}
+                                !fullWidth && "justify-center pl-0"
+                            } flex items-center gap-3 rounded-lg py-2 pl-2 text-muted-foreground transition-all hover:text-primary`}
                         >
                             <TooltipProvider delayDuration={10}>
                                 <Tooltip>
@@ -69,11 +82,16 @@ export const Sidebar = () => {
                             </TooltipProvider>
                             {fullWidth && "Homepage"}
                         </Link>
+                        {fullWidth && 
+                            <p className="text-primary font-medium mt-6">
+                                Fonctionnalités
+                            </p>
+                        }
                         <Link
-                            href="/page1"
+                            href="/traduction"
                             className={`${
-                                !fullWidth && "justify-center"
-                            } flex items-center gap-3 rounded-lg py-2 text-muted-foreground transition-all hover:text-primary`}
+                                !fullWidth && "justify-center pl-0"
+                            } flex items-center gap-3 rounded-lg py-2 pl-2 text-muted-foreground transition-all hover:text-primary`}
                         >
                             <TooltipProvider delayDuration={50}>
                                 <Tooltip>
@@ -87,6 +105,55 @@ export const Sidebar = () => {
                             </TooltipProvider>
                             {fullWidth && "Traduction"}
                         </Link>
+                        {fullWidth && 
+                            <p className="text-primary font-medium mt-6">
+                                Liens externes
+                            </p>
+                        }
+                        <Link
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                openExternalLink('https://discord.gg/aUEEdMdS6j');
+                            }}
+                            className={`${
+                                !fullWidth && "justify-center pl-0"
+                            } group flex items-center gap-3 rounded-lg py-2 pl-2 text-muted-foreground transition-all hover:text-primary`}
+                        >
+                            <TooltipProvider delayDuration={50}>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <DiscordIcon className="h-4 w-4 fill-muted-foreground group-hover:fill-primary transition-all"/>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="right">
+                                        <p>Discord</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            {fullWidth && "Discord"}
+                        </Link>
+                        <Link
+                            href="#"
+                            onClick={(e) => {
+                                e.preventDefault();
+                                openExternalLink('https://github.com/Onivoid/MultiTool');
+                            }}
+                            className={`${
+                                !fullWidth && "justify-center pl-0"
+                            } group flex items-center gap-3 rounded-lg py-2 pl-2 text-muted-foreground transition-all hover:text-primary`}
+                        >
+                            <TooltipProvider delayDuration={50}>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <Github className="h-4 w-4"/>
+                                    </TooltipTrigger>
+                                    <TooltipContent side="right">
+                                        <p>Github</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            {fullWidth && "Github"}
+                        </Link>
                     </nav>
                     <div
                         className={`flex ${
@@ -96,7 +163,7 @@ export const Sidebar = () => {
                         {fullWidth && (
                             <p className="text-xs text-muted-foreground text-nowrap">
                                 <span className="text-primary">
-                                    Multitool beta
+                                    Multitool {appInfos.version}
                                 </span>{" "}
                                 - by Onivoid
                             </p>

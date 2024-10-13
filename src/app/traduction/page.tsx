@@ -27,6 +27,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
+import { Loader2 } from "lucide-react"
 
 export default function Page() {
     const [paths, setPaths] = useState<GamePaths | null>();
@@ -41,6 +42,7 @@ export default function Page() {
             EPTU: null,
             "TECH-PREVIEW": null,
         });
+    const [loadingButtonId, setLoadingButtonId] = useState<string | null>(null);
 
     const defaultLanguage = "fr";
 
@@ -131,6 +133,7 @@ export default function Page() {
             }),
         );
         setPaths(updatedPaths);
+        setLoadingButtonId(null);
     };
 
     const translationsSelectorHandler = (version: string, link: string) => {
@@ -158,7 +161,9 @@ export default function Page() {
     const handleUpdateTranslation = async (
         versionPath: string,
         translationLink: string,
+        buttonId: string,
     ) => {
+        setLoadingButtonId(buttonId);
         invoke("update_translation", {
             path: versionPath,
             translationLink: translationLink,
@@ -171,7 +176,9 @@ export default function Page() {
     const handleInstallTranslation = async (
         versionPath: string,
         translationLink: string,
+        buttonId: string,
     ) => {
+        setLoadingButtonId(buttonId);
         invoke("init_translation_files", {
             path: versionPath,
             translationLink: translationLink,
@@ -228,7 +235,6 @@ export default function Page() {
                                     </p>
                                 </CardHeader>
                                 <CardContent>
-                                    <CardDescription>
                                         <p className="font-bold mb-2">
                                             Traduction à installer :
                                         </p>
@@ -264,9 +270,8 @@ export default function Page() {
                                                     )}
                                             </SelectContent>
                                         </Select>
-                                    </CardDescription>
                                 </CardContent>
-                                <CardFooter className="grid grid-cols-2 gap-5">
+                                <CardFooter className="grid grid-cols-2 gap-3">
                                     {value.translated ? (
                                         <Button
                                             variant={"destructive"}
@@ -281,10 +286,11 @@ export default function Page() {
                                         </Button>
                                     ) : (
                                         <Button
+                                            className="flex items-center justify-center gap-1"
                                             disabled={
                                                 translationsSelected[
                                                     key as keyof TranslationsChoosen
-                                                ] === null
+                                                ] === null || loadingButtonId === key
                                             }
                                             onClick={() =>
                                                 handleInstallTranslation(
@@ -292,27 +298,41 @@ export default function Page() {
                                                     translationsSelected[
                                                         key as keyof TranslationsChoosen
                                                     ]!,
+                                                    key as string,
                                                 )
                                             }
                                         >
-                                            {" "}
-                                            Installer la traduction{" "}
+                                            {
+                                                loadingButtonId === key
+                                                    ? (
+                                                        <>
+                                                            <Loader2 className="h-5 w-5 animate-spin" />
+                                                            Installation en cours...
+                                                        </>
+                                                    )
+                                                    : "Installer la traduction"
+                                            }
                                         </Button>
                                     )}
                                     {value.translated && !value.up_to_date ? (
                                         <Button
                                             variant={"secondary"}
+                                            disabled={loadingButtonId === key}
                                             onClick={() =>
-                                                handleInstallTranslation(
+                                                handleUpdateTranslation(
                                                     value.path,
                                                     translationsSelected[
                                                         key as keyof TranslationsChoosen
                                                     ]!,
+                                                    key as string,
                                                 )
                                             }
                                         >
-                                            {" "}
-                                            Mettre à jour{" "}
+                                            {
+                                                loadingButtonId === key
+                                                    ? "Mise à jour en cours..."
+                                                    : "Mettre à jour"
+                                            }
                                         </Button>
                                     ) : null}
                                 </CardFooter>
