@@ -105,6 +105,7 @@ export default function Page() {
                     });
             });
         } else return;
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paths, translations]);
 
     const saveSelectedTranslations = async (
@@ -172,6 +173,7 @@ export default function Page() {
             setTranslationsSelected(data);
             saveSelectedTranslations(data);
         },
+        // eslint-disable-next-line react-hooks/exhaustive-deps
         [translationsSelected],
     );
 
@@ -191,12 +193,14 @@ export default function Page() {
         }, 60000);
 
         return () => clearInterval(interval);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paths]);
 
     useEffect(() => {
         if (translationsSelected && paths) {
             CheckTranslationsState(paths);
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [translationsSelected]);
 
     const handleUpdateTranslation = async (
@@ -370,6 +374,7 @@ export default function Page() {
                 </Card>
             </motion.div>
         ));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paths, translationsSelected, loadingButtonId]);
 
     return (
