@@ -10,6 +10,7 @@ import { ThemeProvider } from "@/components/custom/ThemeProvider";
 import { usePathname } from "next/navigation";
 import { loadAndApplyTheme } from "@/utils/CustomThemeProvider";
 import { useTheme } from "next-themes";
+import { Toaster } from "@/components/ui/toaster";
 
 const fontSans = FontSans({
     subsets: ["latin"],
@@ -63,6 +64,7 @@ export default function RootLayout({
                                     {children}
                                 </main>
                             </div>
+                            <Toaster />
                         </Suspense>
                     )}
                 </ThemeProvider>

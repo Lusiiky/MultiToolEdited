@@ -50,7 +50,7 @@ const CommitsList = () => {
                         <ul className="pl-3">
                             <li>
                                 <span className="text-primary">- Feat</span> :
-                                Nouvelles fonctionnalité
+                                Nouvelle fonctionnalité
                             </li>
                             <li>
                                 <span className="text-primary">- Bugfix</span> :

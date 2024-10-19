@@ -27,6 +27,7 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { Loader2 } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 export default function Page() {
     const [paths, setPaths] = useState<GamePaths | null>();
@@ -42,36 +43,29 @@ export default function Page() {
             "TECH-PREVIEW": null,
         });
     const [loadingButtonId, setLoadingButtonId] = useState<string | null>(null);
+    const [dataFetched, setDataFetched] = useState<boolean>(false);
 
     const defaultLanguage = "fr";
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const versions = await invoke("get_star_citizen_versions");
-                if (isGamePaths(versions)) {
-                    setPaths(versions);
-                }
-                const translations = await invoke("get_translations");
-                if (isLocalizationConfig(translations)) {
-                    setTranslations(translations);
-                }
-                const data: TranslationsChoosen = await invoke(
-                    "load_translations_selected",
-                );
-                if (data && typeof data === "object") {
-                    setTranslationsSelected(data);
-                    console.log("Données chargées", data);
-                } else {
-                    setTranslationsSelected({
-                        LIVE: null,
-                        PTU: null,
-                        EPTU: null,
-                        "TECH-PREVIEW": null,
-                    });
-                }
-            } catch (error) {
-                console.error("Erreur lors du chargement des données :", error);
+    const { toast } = useToast();
+
+    const fetchData = async () => {
+        if (dataFetched) return;
+        try {
+            const versions = await invoke("get_star_citizen_versions");
+            if (isGamePaths(versions)) {
+                setPaths(versions);
+            }
+            const translations = await invoke("get_translations");
+            if (isLocalizationConfig(translations)) {
+                setTranslations(translations);
+            }
+            const data: TranslationsChoosen = await invoke(
+                "load_translations_selected",
+            );
+            if (data && typeof data === "object") {
+                setTranslationsSelected(data);
+            } else {
                 setTranslationsSelected({
                     LIVE: null,
                     PTU: null,
@@ -79,10 +73,39 @@ export default function Page() {
                     "TECH-PREVIEW": null,
                 });
             }
-        };
+        return true;
+        
+        } catch (error) {
+            setTranslationsSelected({
+                LIVE: null,
+                PTU: null,
+                EPTU: null,
+                "TECH-PREVIEW": null,
+            });
+            return false;
+        }
+    };
 
-        fetchData();
-    }, []);
+    useEffect(() => {
+        if (!paths && !translations) {
+            setDataFetched(true);
+            fetchData().then((status) => {
+                status 
+                    ? toast({
+                        title: "Données chargées",
+                        description: "Les données de traduction ont été chargées avec succès.",
+                        success: true,
+                        duration: 3000
+                    }) 
+                    : toast({
+                        title: "Erreur lors du chargement des données",
+                        description: `Une erreur est survenue lors du chargement des données.`,
+                        success: false,
+                        duration: 3000
+                    });
+            });
+        } else return;
+    }, [paths, translations]);
 
     const saveSelectedTranslations = async (
         newTranslationsSelected: TranslationsChoosen,
@@ -91,9 +114,19 @@ export default function Page() {
             await invoke("save_translations_selected", {
                 data: newTranslationsSelected,
             });
-            console.log("Données sauvegardées", newTranslationsSelected);
+            toast({
+                title: "Préférences de traduction sauvegardées",
+                description: `Les préférences de traduction ont été sauvegardées avec succès.`,
+                success: true,
+                duration: 3000
+            });
         } catch (error) {
-            console.error("Erreur lors de la sauvegarde des données :", error);
+            toast({
+                title: "Erreur lors de la sauvegarde des données",
+                description: `Une erreur est survenue lors de la sauvegarde des données : ${error}`,
+                success: false,
+                duration: 3000
+            });
         }
     };
 
@@ -177,6 +210,12 @@ export default function Page() {
             translationLink: translationLink,
             lang: defaultLanguage,
         }).then(() => {
+            toast({
+                title: "Traduction mise à jour",
+                description: "La traduction a été mise à jour avec succès.",
+                success: true,
+                duration: 3000
+            });
             CheckTranslationsState(paths!);
         });
     };
@@ -192,12 +231,24 @@ export default function Page() {
             translationLink: translationLink,
             lang: defaultLanguage,
         }).then(() => {
+            toast({
+                title: "Traduction installée",
+                description: "La traduction a été installée avec succès.",
+                success: true,
+                duration: 3000
+            });
             CheckTranslationsState(paths!);
         });
     };
 
     const handleUninstallTranslation = async (versionPath: string) => {
         invoke("uninstall_translation", { path: versionPath }).then(() => {
+            toast({
+                title: "Traduction désinstallée",
+                description: "La traduction a été désinstallée avec succès.",
+                success: true,
+                duration: 3000
+            });
             CheckTranslationsState(paths!);
         });
     };
