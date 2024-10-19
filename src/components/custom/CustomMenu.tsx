@@ -37,11 +37,7 @@ export const CustomMenu = ({ fullWidth }: { fullWidth: boolean }) => {
                         </div>
                     )}
                     <div className="col-span-1 flex items-center justify-center">
-                        <Image
-                            src={logo}
-                            alt="Logo"
-                            width={50}
-                            height={50} />
+                        <Image src={logo} alt="Logo" width={50} height={50} />
                     </div>
                 </div>
             </DraggableRegion>

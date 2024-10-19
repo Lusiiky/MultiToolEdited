@@ -63,8 +63,8 @@
     }
     main {
         @apply bg-background text-foreground;
-    }    
-    
+    }
+
     *::-webkit-scrollbar-track {
         background-color: transparent;
         border-radius: 0.75rem;
@@ -79,6 +79,6 @@
     }
     .discordIcon {
         @apply w-6 h-6;
-        src: url('../assets/svg/discord.svg');
+        src: url("../assets/svg/discord.svg");
     }
 }
