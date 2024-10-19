@@ -49,120 +49,128 @@ export default function Page() {
 
     const { toast } = useToast();
 
-    const fetchData = async () => {
-        if (dataFetched) return;
-        try {
-            const versions = await invoke("get_star_citizen_versions");
-            if (isGamePaths(versions)) {
-                setPaths(versions);
-            }
-            const translations = await invoke("get_translations");
-            if (isLocalizationConfig(translations)) {
-                setTranslations(translations);
-            }
-            const data: TranslationsChoosen = await invoke(
-                "load_translations_selected",
-            );
-            if (data && typeof data === "object") {
-                setTranslationsSelected(data);
-            } else {
+    useEffect(() => {
+        const fetchData = async () => {
+            if (dataFetched) return;
+            try {
+                const versions = await invoke("get_star_citizen_versions");
+                if (isGamePaths(versions)) {
+                    setPaths(versions);
+                }
+                const translations = await invoke("get_translations");
+                if (isLocalizationConfig(translations)) {
+                    setTranslations(translations);
+                }
+                const data: TranslationsChoosen = await invoke(
+                    "load_translations_selected",
+                );
+                if (data && typeof data === "object") {
+                    setTranslationsSelected(data);
+                } else {
+                    setTranslationsSelected({
+                        LIVE: null,
+                        PTU: null,
+                        EPTU: null,
+                        "TECH-PREVIEW": null,
+                    });
+                }
+                return true;
+            } catch (error) {
                 setTranslationsSelected({
                     LIVE: null,
                     PTU: null,
                     EPTU: null,
                     "TECH-PREVIEW": null,
                 });
+                return false;
             }
-        return true;
-        
-        } catch (error) {
-            setTranslationsSelected({
-                LIVE: null,
-                PTU: null,
-                EPTU: null,
-                "TECH-PREVIEW": null,
-            });
-            return false;
-        }
-    };
-
-    useEffect(() => {
+        };
         if (!paths && !translations) {
             setDataFetched(true);
             fetchData().then((status) => {
-                status 
+                status
                     ? toast({
-                        title: "Données chargées",
-                        description: "Les données de traduction ont été chargées avec succès.",
-                        success: true,
-                        duration: 3000
-                    }) 
+                          title: "Données chargées",
+                          description:
+                              "Les données de traduction ont été chargées avec succès.",
+                          success: true,
+                          duration: 3000,
+                      })
                     : toast({
-                        title: "Erreur lors du chargement des données",
-                        description: `Une erreur est survenue lors du chargement des données.`,
-                        success: false,
-                        duration: 3000
-                    });
+                          title: "Erreur lors du chargement des données",
+                          description: `Une erreur est survenue lors du chargement des données.`,
+                          success: false,
+                          duration: 3000,
+                      });
             });
         } else return;
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [paths, translations]);
 
-    const saveSelectedTranslations = async (
-        newTranslationsSelected: TranslationsChoosen,
-    ) => {
-        try {
-            await invoke("save_translations_selected", {
-                data: newTranslationsSelected,
-            });
-            toast({
-                title: "Préférences de traduction sauvegardées",
-                description: `Les préférences de traduction ont été sauvegardées avec succès.`,
-                success: true,
-                duration: 3000
-            });
-        } catch (error) {
-            toast({
-                title: "Erreur lors de la sauvegarde des données",
-                description: `Une erreur est survenue lors de la sauvegarde des données : ${error}`,
-                success: false,
-                duration: 3000
-            });
-        }
-    };
-
-    const CheckTranslationsState = async (paths: GamePaths) => {
-        const updatedPaths = { ...paths };
-        await Promise.all(
-            Object.entries(paths.versions).map(async ([key, value]) => {
-                const translated: boolean = await invoke("is_game_translated", {
-                    path: value.path,
-                    lang: defaultLanguage,
+    const saveSelectedTranslations = useCallback(
+        async (newTranslationsSelected: TranslationsChoosen) => {
+            try {
+                await invoke("save_translations_selected", {
+                    data: newTranslationsSelected,
                 });
-                const upToDate: boolean =
-                    translationsSelected[key as keyof TranslationsChoosen] !== null
-                        ? await invoke("is_translation_up_to_date", {
-                              path: value.path,
-                              translationLink:
-                                  translationsSelected[
-                                      key as keyof TranslationsChoosen
-                                  ],
-                              lang: defaultLanguage,
-                          })
-                        : value.up_to_date;
+                toast({
+                    title: "Préférences de traduction sauvegardées",
+                    description: `Les préférences de traduction ont été sauvegardées avec succès.`,
+                    success: true,
+                    duration: 3000,
+                });
+            } catch (error) {
+                toast({
+                    title: "Erreur lors de la sauvegarde des données",
+                    description: `Une erreur est survenue lors de la sauvegarde des données : ${error}`,
+                    success: false,
+                    duration: 3000,
+                });
+            }
+        },
+        [toast],
+    );
 
-                const versionInfo = {
-                    path: value.path,
-                    translated: translated,
-                    up_to_date: upToDate,
-                };
-                updatedPaths.versions[key as keyof GamePaths["versions"]] =
-                    versionInfo;
-            }),
-        );
-        setPaths(updatedPaths);
-        setLoadingButtonId(null);
-    };
+    const CheckTranslationsState = useCallback(
+        async (paths: GamePaths) => {
+            const updatedPaths = { ...paths };
+            await Promise.all(
+                Object.entries(paths.versions).map(async ([key, value]) => {
+                    const translated: boolean = await invoke(
+                        "is_game_translated",
+                        {
+                            path: value.path,
+                            lang: defaultLanguage,
+                        },
+                    );
+                    const upToDate: boolean =
+                        translationsSelected[
+                            key as keyof TranslationsChoosen
+                        ] !== null
+                            ? await invoke("is_translation_up_to_date", {
+                                  path: value.path,
+                                  translationLink:
+                                      translationsSelected[
+                                          key as keyof TranslationsChoosen
+                                      ],
+                                  lang: defaultLanguage,
+                              })
+                            : value.up_to_date;
+
+                    const versionInfo = {
+                        path: value.path,
+                        translated: translated,
+                        up_to_date: upToDate,
+                    };
+                    updatedPaths.versions[key as keyof GamePaths["versions"]] =
+                        versionInfo;
+                }),
+            );
+            setPaths(updatedPaths);
+            setLoadingButtonId(null);
+        },
+        [translationsSelected, defaultLanguage],
+    );
 
     const translationsSelectorHandler = useCallback(
         (version: string, link: string) => {
@@ -179,7 +187,7 @@ export default function Page() {
 
     useEffect(() => {
         const checkState = async () => {
-            if (!paths ) return;
+            if (!paths) return;
             await CheckTranslationsState(paths);
             setEarlyChecked(true);
         };
@@ -203,59 +211,69 @@ export default function Page() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [translationsSelected]);
 
-    const handleUpdateTranslation = async (
-        versionPath: string,
-        translationLink: string,
-        buttonId: string,
-    ) => {
-        setLoadingButtonId(buttonId);
-        invoke("update_translation", {
-            path: versionPath,
-            translationLink: translationLink,
-            lang: defaultLanguage,
-        }).then(() => {
-            toast({
-                title: "Traduction mise à jour",
-                description: "La traduction a été mise à jour avec succès.",
-                success: true,
-                duration: 3000
+    const handleUpdateTranslation = useCallback(
+        async (
+            versionPath: string,
+            translationLink: string,
+            buttonId: string,
+        ) => {
+            setLoadingButtonId(buttonId);
+            invoke("update_translation", {
+                path: versionPath,
+                translationLink: translationLink,
+                lang: defaultLanguage,
+            }).then(() => {
+                toast({
+                    title: "Traduction mise à jour",
+                    description: "La traduction a été mise à jour avec succès.",
+                    success: true,
+                    duration: 3000,
+                });
+                CheckTranslationsState(paths!);
             });
-            CheckTranslationsState(paths!);
-        });
-    };
+        },
+        [toast, paths, CheckTranslationsState],
+    );
 
-    const handleInstallTranslation = async (
-        versionPath: string,
-        translationLink: string,
-        buttonId: string,
-    ) => {
-        setLoadingButtonId(buttonId);
-        invoke("init_translation_files", {
-            path: versionPath,
-            translationLink: translationLink,
-            lang: defaultLanguage,
-        }).then(() => {
-            toast({
-                title: "Traduction installée",
-                description: "La traduction a été installée avec succès.",
-                success: true,
-                duration: 3000
+    const handleInstallTranslation = useCallback(
+        async (
+            versionPath: string,
+            translationLink: string,
+            buttonId: string,
+        ) => {
+            setLoadingButtonId(buttonId);
+            invoke("init_translation_files", {
+                path: versionPath,
+                translationLink: translationLink,
+                lang: defaultLanguage,
+            }).then(() => {
+                toast({
+                    title: "Traduction installée",
+                    description: "La traduction a été installée avec succès.",
+                    success: true,
+                    duration: 3000,
+                });
+                CheckTranslationsState(paths!);
             });
-            CheckTranslationsState(paths!);
-        });
-    };
+        },
+        [toast, paths, CheckTranslationsState],
+    );
 
-    const handleUninstallTranslation = async (versionPath: string) => {
-        invoke("uninstall_translation", { path: versionPath }).then(() => {
-            toast({
-                title: "Traduction désinstallée",
-                description: "La traduction a été désinstallée avec succès.",
-                success: true,
-                duration: 3000
+    const handleUninstallTranslation = useCallback(
+        async (versionPath: string) => {
+            invoke("uninstall_translation", { path: versionPath }).then(() => {
+                toast({
+                    title: "Traduction désinstallée",
+                    description:
+                        "La traduction a été désinstallée avec succès.",
+                    success: true,
+                    duration: 3000,
+                });
+                CheckTranslationsState(paths!);
             });
-            CheckTranslationsState(paths!);
-        });
-    };
+        },
+        [toast, paths, CheckTranslationsState],
+    );
 
     const renderCard = useMemo(() => {
         if (!paths || !translations) return null;
