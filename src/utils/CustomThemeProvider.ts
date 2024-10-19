@@ -1,4 +1,4 @@
-import { invoke } from '@tauri-apps/api/tauri';
+import { invoke } from "@tauri-apps/api/tauri";
 
 // Fonction pour convertir une couleur hexadécimale en HSL
 function hexToHSL(hex: string): { h: number; s: number; l: number } {
@@ -166,16 +166,20 @@ export function applyTheme(primaryColor: string): void {
 
     styleElement.innerHTML = themeCSS;
 
-    invoke('save_theme_selected', { data: { primary_color: primaryColor } })
-    .then(() => console.log('Thème enregistré avec succès'))
-    .catch((error) => console.error('Erreur lors de l\'enregistrement du thème', error));
+    invoke("save_theme_selected", { data: { primary_color: primaryColor } })
+        .then(() => console.log("Thème enregistré avec succès"))
+        .catch((error) =>
+            console.error("Erreur lors de l'enregistrement du thème", error),
+        );
 }
 
 export function loadAndApplyTheme(): void {
-    invoke('load_theme_selected')
+    invoke("load_theme_selected")
         .then((value) => {
             const theme = value as { primary_color: string };
             applyTheme(theme.primary_color);
         })
-        .catch((error) => console.error('Erreur lors du chargement du thème', error));
+        .catch((error) =>
+            console.error("Erreur lors du chargement du thème", error),
+        );
 }

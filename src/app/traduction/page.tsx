@@ -14,7 +14,6 @@ import { Separator } from "@/components/ui/separator";
 import {
     Card,
     CardContent,
-    CardDescription,
     CardFooter,
     CardHeader,
     CardTitle,
@@ -27,7 +26,7 @@ import {
     SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { Loader2 } from "lucide-react"
+import { Loader2 } from "lucide-react";
 
 export default function Page() {
     const [paths, setPaths] = useState<GamePaths | null>();
@@ -235,41 +234,39 @@ export default function Page() {
                                     </p>
                                 </CardHeader>
                                 <CardContent>
-                                        <p className="font-bold mb-2">
-                                            Traduction à installer :
-                                        </p>
-                                        <Select
-                                            value={
-                                                translationsSelected[
-                                                    key as keyof TranslationsChoosen
-                                                ] || ""
-                                            }
-                                            onValueChange={(value) =>
-                                                translationsSelectorHandler(
-                                                    key,
-                                                    value,
-                                                )
-                                            }
-                                        >
-                                            <SelectTrigger className="w-[70%]">
-                                                <SelectValue placeholder="Sélectionner la traduction" />
-                                            </SelectTrigger>
-                                            <SelectContent>
-                                                {translations &&
-                                                    translations[
-                                                        defaultLanguage
-                                                    ].links.map(
-                                                        (link: Link) => (
-                                                            <SelectItem
-                                                                key={link.id}
-                                                                value={link.url}
-                                                            >
-                                                                {link.name}
-                                                            </SelectItem>
-                                                        ),
-                                                    )}
-                                            </SelectContent>
-                                        </Select>
+                                    <p className="font-bold mb-2">
+                                        Traduction à installer :
+                                    </p>
+                                    <Select
+                                        value={
+                                            translationsSelected[
+                                                key as keyof TranslationsChoosen
+                                            ] || ""
+                                        }
+                                        onValueChange={(value) =>
+                                            translationsSelectorHandler(
+                                                key,
+                                                value,
+                                            )
+                                        }
+                                    >
+                                        <SelectTrigger className="w-[70%]">
+                                            <SelectValue placeholder="Sélectionner la traduction" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {translations &&
+                                                translations[
+                                                    defaultLanguage
+                                                ].links.map((link: Link) => (
+                                                    <SelectItem
+                                                        key={link.id}
+                                                        value={link.url}
+                                                    >
+                                                        {link.name}
+                                                    </SelectItem>
+                                                ))}
+                                        </SelectContent>
+                                    </Select>
                                 </CardContent>
                                 <CardFooter className="grid grid-cols-2 gap-3">
                                     {value.translated ? (
@@ -290,7 +287,8 @@ export default function Page() {
                                             disabled={
                                                 translationsSelected[
                                                     key as keyof TranslationsChoosen
-                                                ] === null || loadingButtonId === key
+                                                ] === null ||
+                                                loadingButtonId === key
                                             }
                                             onClick={() =>
                                                 handleInstallTranslation(
@@ -302,16 +300,14 @@ export default function Page() {
                                                 )
                                             }
                                         >
-                                            {
-                                                loadingButtonId === key
-                                                    ? (
-                                                        <>
-                                                            <Loader2 className="h-5 w-5 animate-spin" />
-                                                            Installation en cours...
-                                                        </>
-                                                    )
-                                                    : "Installer la traduction"
-                                            }
+                                            {loadingButtonId === key ? (
+                                                <>
+                                                    <Loader2 className="h-5 w-5 animate-spin" />
+                                                    Installation en cours...
+                                                </>
+                                            ) : (
+                                                "Installer la traduction"
+                                            )}
                                         </Button>
                                     )}
                                     {value.translated && !value.up_to_date ? (
@@ -328,11 +324,9 @@ export default function Page() {
                                                 )
                                             }
                                         >
-                                            {
-                                                loadingButtonId === key
-                                                    ? "Mise à jour en cours..."
-                                                    : "Mettre à jour"
-                                            }
+                                            {loadingButtonId === key
+                                                ? "Mise à jour en cours..."
+                                                : "Mettre à jour"}
                                         </Button>
                                     ) : null}
                                 </CardFooter>

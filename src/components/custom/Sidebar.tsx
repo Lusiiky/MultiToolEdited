@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { invoke } from '@tauri-apps/api/tauri';
+import { invoke } from "@tauri-apps/api/tauri";
 import { useState } from "react";
 import { ColorPicker } from "./ColorPicker";
 import { Button } from "@/components/ui/button";
@@ -10,7 +10,14 @@ import { CustomMenu } from "@/components/custom/CustomMenu";
 import { DarkModeSelector } from "@/components/custom/DarkModeSelector";
 import { DiscordIcon } from "@/components/custom/DiscordIcon";
 
-import { Home, Settings, Languages, Maximize2, Minimize2, Github } from "lucide-react";
+import {
+    Home,
+    Settings,
+    Languages,
+    Maximize2,
+    Minimize2,
+    Github,
+} from "lucide-react";
 
 import appInfos from "@/utils/appInfos.json";
 
@@ -33,7 +40,7 @@ import {
 export const Sidebar = () => {
     const [fullWidth, setFullWidth] = useState(false);
     const openExternalLink = async (url: string) => {
-        await invoke('open_external', { url });
+        await invoke("open_external", { url });
     };
     return (
         <div
@@ -57,13 +64,13 @@ export const Sidebar = () => {
                             !fullWidth && "gap-3"
                         } grid items-start text-sm font-medium px-4 pt-3`}
                     >
-                    {fullWidth && 
-                        <>
-                            <p className="text-primary font-medium">
-                                Pages
-                            </p>
-                        </>
-                    }
+                        {fullWidth && (
+                            <>
+                                <p className="text-primary font-medium">
+                                    Pages
+                                </p>
+                            </>
+                        )}
                         <Link
                             href="/"
                             className={`${
@@ -82,11 +89,11 @@ export const Sidebar = () => {
                             </TooltipProvider>
                             {fullWidth && "Homepage"}
                         </Link>
-                        {fullWidth && 
+                        {fullWidth && (
                             <p className="text-primary font-medium mt-6">
                                 Fonctionnalités
                             </p>
-                        }
+                        )}
                         <Link
                             href="/traduction"
                             className={`${
@@ -105,16 +112,18 @@ export const Sidebar = () => {
                             </TooltipProvider>
                             {fullWidth && "Traduction"}
                         </Link>
-                        {fullWidth && 
+                        {fullWidth && (
                             <p className="text-primary font-medium mt-6">
                                 Liens externes
                             </p>
-                        }
+                        )}
                         <Link
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();
-                                openExternalLink('https://discord.gg/aUEEdMdS6j');
+                                openExternalLink(
+                                    "https://discord.gg/aUEEdMdS6j",
+                                );
                             }}
                             className={`${
                                 !fullWidth && "justify-center pl-0"
@@ -123,7 +132,7 @@ export const Sidebar = () => {
                             <TooltipProvider delayDuration={50}>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <DiscordIcon className="h-4 w-4 fill-muted-foreground group-hover:fill-primary transition-all"/>
+                                        <DiscordIcon className="h-4 w-4 fill-muted-foreground group-hover:fill-primary transition-all" />
                                     </TooltipTrigger>
                                     <TooltipContent side="right">
                                         <p>Discord</p>
@@ -136,7 +145,9 @@ export const Sidebar = () => {
                             href="#"
                             onClick={(e) => {
                                 e.preventDefault();
-                                openExternalLink('https://github.com/Onivoid/MultiTool');
+                                openExternalLink(
+                                    "https://github.com/Onivoid/MultiTool",
+                                );
                             }}
                             className={`${
                                 !fullWidth && "justify-center pl-0"
@@ -145,7 +156,7 @@ export const Sidebar = () => {
                             <TooltipProvider delayDuration={50}>
                                 <Tooltip>
                                     <TooltipTrigger>
-                                        <Github className="h-4 w-4"/>
+                                        <Github className="h-4 w-4" />
                                     </TooltipTrigger>
                                     <TooltipContent side="right">
                                         <p>Github</p>

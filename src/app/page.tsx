@@ -30,11 +30,7 @@ export default function Page() {
             className="flex min-h-screen flex-col"
         >
             <div className="flex items-center gap-3">
-                <Image
-                    src={logo}
-                    alt="Logo"
-                    width={50}
-                    height={50} />
+                <Image src={logo} alt="Logo" width={50} height={50} />
                 <p>Multitool - version {appInfos.version}</p>
             </div>
             <CommitsList />

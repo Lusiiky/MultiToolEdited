@@ -8,7 +8,7 @@ import { ControlMenu } from "@/components/custom/ControlMenu";
 import { Inter as FontSans } from "next/font/google";
 import { ThemeProvider } from "@/components/custom/ThemeProvider";
 import { usePathname } from "next/navigation";
-import { loadAndApplyTheme } from '@/utils/CustomThemeProvider';
+import { loadAndApplyTheme } from "@/utils/CustomThemeProvider";
 import { useTheme } from "next-themes";
 
 const fontSans = FontSans({
@@ -32,7 +32,7 @@ export default function RootLayout({
             loadAndApplyTheme();
             setLoaded(true);
         }
-    }, []);
+    }, [loaded, setTheme]);
 
     return (
         <html lang="en" suppressHydrationWarning className="static min-w-full">
@@ -44,29 +44,27 @@ export default function RootLayout({
                 )}
             >
                 <ThemeProvider attribute="class" defaultTheme="dark">
-                    {
-                        isSplashRoute 
-                        ? (
-                            <div className="min-h-screen w-full flex rounded-l-3xl overflow-hidden">
-                                <main
-                                    className="flex flex-col justify-center items-center rounded-r-3xl overflow-hidden w-full bg-zinc-950">
+                    {isSplashRoute ? (
+                        <div className="min-h-screen w-full flex rounded-l-3xl overflow-hidden">
+                            <main className="flex flex-col justify-center items-center rounded-r-3xl overflow-hidden w-full bg-zinc-950">
+                                {children}
+                            </main>
+                        </div>
+                    ) : (
+                        <Suspense fallback={<p>Loading ... </p>}>
+                            <div
+                                data-tauri-drag-region
+                                className="absolute h-[80px] w-full z-0"
+                            />
+                            <ControlMenu />
+                            <div className="max-h-screen w-full flex rounded-l-3xl overflow-hidden">
+                                <Sidebar />
+                                <main className="flex flex-col rounded-r-3xl overflow-hidden w-full pt-20 px-10">
                                     {children}
                                 </main>
                             </div>
-                        )
-                        : (
-                            <Suspense fallback={<p>Loading ... </p>}>
-                                <div data-tauri-drag-region className="absolute h-[80px] w-full z-0"/>
-                                <ControlMenu />
-                                <div className="max-h-screen w-full flex rounded-l-3xl overflow-hidden">
-                                    <Sidebar />
-                                    <main className="flex flex-col rounded-r-3xl overflow-hidden w-full pt-20 px-10">
-                                        {children}
-                                    </main>
-                                </div>
-                            </Suspense>
-                        )
-                    }
+                        </Suspense>
+                    )}
                 </ThemeProvider>
             </body>
         </html>
