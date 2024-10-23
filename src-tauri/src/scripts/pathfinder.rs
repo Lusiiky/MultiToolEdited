@@ -50,7 +50,7 @@ fn get_game_install_path(
 
     for &v in with_version {
         let pattern = format!(
-            r"([a-zA-Z]:\\\\[^\\\\]*\\\\[^\\\\]*\\\\StarCitizen\\\\{})",
+            r"([a-zA-Z]:\\\\(?:[^\\\\]+\\\\)*StarCitizen\\\\{})",
             v
         );
         let re = Regex::new(&pattern).unwrap();
