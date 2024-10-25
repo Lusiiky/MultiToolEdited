@@ -275,19 +275,20 @@ export default function Page() {
         [toast, paths, CheckTranslationsState],
     );
 
+
     const renderCard = useMemo(() => {
         if (!paths || !translations) return null;
-        return Object.entries(paths.versions).map(([key, value]) => (
+        return Object.entries(paths.versions).map(([key, value], index) => (
             <motion.div
                 key={key}
                 initial={{ opacity: 0, x: 300 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{
                     duration: 1,
-                    delay: 0.4,
+                    delay: 0.4 + index * 0.2,
                     ease: [0, 0.71, 0.2, 1.01],
                 }}
-                className="flex min-h-screen flex-col"
+                className="flex flex-col"
             >
                 <Card className="col-span-1">
                     <CardHeader>
@@ -404,14 +405,30 @@ export default function Page() {
                 delay: 0.2,
                 ease: [0, 0.71, 0.2, 1.01],
             }}
-            className="flex min-h-screen flex-col"
+            className="flex h-full max-h-screen flex-col max-w-full"
         >
             <h1 className="text-2xl mb-5">Traduction du jeu</h1>
             <Separator />
 
-            <div className="grid grid-cols-2 gap-4 mt-5">
-                {paths && renderCard}
+            {paths && Object.entries(paths?.versions)[0] ? (
+                
+            <div className="grid w-full max-w-full 
+            auto-cols-max auto-rows-min grid-cols-2 
+            gap-4 mt-5 overflow-y-scroll overflow-x-hidden h-screen pr-3 pb-3">
+                {renderCard}
             </div>
+            ) : (
+                <div className="flex flex-col items-center justify-center w-full h-screen">
+                    <h2 className="text-3xl font-bold text-primary mb-2">
+                        Aucune versions du jeu n'a était trouvée
+                    </h2>
+                    <p className="max-w-[500px] text-center leading-7">
+                        Pour régler ce problème, lancez StarCitizen, puis rechargez cette page en faisant la manipulation suivante :
+                        <span className="bg-gray-500 px-2 py-1 ml-2">CRTL + R</span>
+                    </p>
+                </div>
+            )
+                }
         </motion.div>
     );
 }
