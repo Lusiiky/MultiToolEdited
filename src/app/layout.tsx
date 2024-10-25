@@ -60,7 +60,7 @@ export default function RootLayout({
                             <ControlMenu />
                             <div className="max-h-screen w-full flex rounded-l-3xl overflow-hidden">
                                 <Sidebar />
-                                <main className="flex flex-col rounded-r-3xl overflow-hidden w-full pt-20 px-10">
+                                <main className="flex flex-col max-h-screen rounded-r-3xl overflow-hidden w-full pt-20 px-10">
                                     {children}
                                 </main>
                             </div>
