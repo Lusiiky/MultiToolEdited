@@ -275,7 +275,6 @@ export default function Page() {
         [toast, paths, CheckTranslationsState],
     );
 
-
     const renderCard = useMemo(() => {
         if (!paths || !translations) return null;
         return Object.entries(paths.versions).map(([key, value], index) => (
@@ -411,24 +410,28 @@ export default function Page() {
             <Separator />
 
             {paths && Object.entries(paths?.versions)[0] ? (
-                
-            <div className="grid w-full max-w-full 
+                <div
+                    className="grid w-full max-w-full 
             auto-cols-max auto-rows-min grid-cols-2 
-            gap-4 mt-5 overflow-y-scroll overflow-x-hidden h-screen pr-3 pb-3">
-                {renderCard}
-            </div>
+            gap-4 mt-5 overflow-y-scroll overflow-x-hidden h-screen pr-3 pb-3"
+                >
+                    {renderCard}
+                </div>
             ) : (
                 <div className="flex flex-col items-center justify-center w-full h-screen">
                     <h2 className="text-3xl font-bold text-primary mb-2">
-                        Aucune versions du jeu n'a était trouvée
+                        Aucune versions du jeu n{"'"}a était trouvée
                     </h2>
                     <p className="max-w-[500px] text-center leading-7">
-                        Pour régler ce problème, lancez StarCitizen, puis rechargez cette page en faisant la manipulation suivante :
-                        <span className="bg-gray-500 px-2 py-1 ml-2">CRTL + R</span>
+                        Pour régler ce problème, lancez StarCitizen, puis
+                        rechargez cette page en faisant la manipulation suivante
+                        :
+                        <span className="bg-gray-500 px-2 py-1 ml-2">
+                            CRTL + R
+                        </span>
                     </p>
                 </div>
-            )
-                }
+            )}
         </motion.div>
     );
 }
