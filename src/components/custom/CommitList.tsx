@@ -72,9 +72,9 @@ const CommitsList = () => {
             </div>
             <Separator className="my-2" />
             {!commits[0] ? (
-                <Skeleton className="h-[300px]" />
+                <Skeleton className="h-[430px]" />
             ) : (
-                <ul className="overflow-y-scroll h-[300px] bg-zinc-900 p-5 rounded-xl">
+                <ul className="overflow-y-scroll h-[430px] bg-zinc-900 p-5 rounded-xl">
                     {commits.map((commit, index) => (
                         <li key={index}>
                             <p className="text-lg font-bold text-zinc-200">
