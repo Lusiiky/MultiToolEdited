@@ -10,6 +10,7 @@ use scripts::translations_links::get_translations;
 use scripts::translation_functions::{is_game_translated, init_translation_files, is_translation_up_to_date, update_translation, uninstall_translation};
 use scripts::translation_preferences::{save_translations_selected, load_translations_selected};
 use scripts::theme_preferences::{save_theme_selected, load_theme_selected};
+use scripts::cache_functions::{get_cache_informations, delete_folder, clear_cache, open_cache_folder};
 use scripts::patchnote::get_latest_commits;
 use tauri::Manager;
 use tokio::time::{sleep, Duration};
@@ -48,7 +49,11 @@ fn main() {
       save_theme_selected,
       load_theme_selected,
       get_latest_commits,
-      open_external
+      open_external,
+      get_cache_informations,
+      delete_folder,
+      clear_cache,
+      open_cache_folder
     ])
     .menu(create_menu())
     .on_menu_event(|event| handle_menu_event(&event.window(), event.menu_item_id()))  

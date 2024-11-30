@@ -1,5 +1,5 @@
 format:
-	pnpx prettier --write .
+	pnpx prettier --write ./src
 
 lint:
 	pnpm run lint

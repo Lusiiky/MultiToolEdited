@@ -17,6 +17,7 @@ import {
     Maximize2,
     Minimize2,
     Github,
+    DatabaseZap,
 } from "lucide-react";
 
 import appInfos from "@/utils/appInfos.json";
@@ -111,6 +112,24 @@ export const Sidebar = () => {
                                 </Tooltip>
                             </TooltipProvider>
                             {fullWidth && "Traduction"}
+                        </Link>
+                        <Link
+                            href="/clear_cache"
+                            className={`${
+                                !fullWidth && "justify-center pl-0"
+                            } flex items-center gap-3 rounded-lg py-2 pl-2 text-muted-foreground transition-all hover:text-primary`}
+                        >
+                            <TooltipProvider delayDuration={50}>
+                                <Tooltip>
+                                    <TooltipTrigger>
+                                        <DatabaseZap className="h-4 w-4" />
+                                    </TooltipTrigger>
+                                    <TooltipContent side="right">
+                                        <p>Gestion du cache</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
+                            {fullWidth && "Gestion du cache"}
                         </Link>
                         {fullWidth && (
                             <p className="text-primary font-medium mt-6">
