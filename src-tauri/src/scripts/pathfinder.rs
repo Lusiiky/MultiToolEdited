@@ -72,7 +72,7 @@ fn get_game_install_path(
 }
 
 fn get_game_channel_id(install_path: &str) -> String {
-    let versions = vec!["LIVE", "PTU", "EPTU", "TECH-PREVIEW"];
+    let versions = vec!["LIVE", "PTU", "EPTU", "TECH-PREVIEW", "4.0_PREVIEW"];
     for v in versions {
         if install_path.ends_with(&format!("\\{}", v)) {
             return v.to_string();
@@ -96,7 +96,7 @@ pub struct VersionPaths {
 #[command]
 pub fn get_star_citizen_versions() -> VersionPaths {
     let log_lines = get_launcher_log_list();
-    let with_version = &["LIVE", "PTU", "EPTU", "TECH-PREVIEW"];
+    let with_version = &["LIVE", "PTU", "EPTU", "TECH-PREVIEW", "4.0_PREVIEW"];
     let sc_install_paths = get_game_install_path(log_lines, true, with_version);
 
     let mut versions = HashMap::new();

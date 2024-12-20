@@ -18,7 +18,7 @@ export default function ClearCachePage() {
             await invoke("get_cache_informations"),
         );
         setCacheInfos(result.folders);
-    }, [cacheInfos, setCacheInfos]);
+    }, [setCacheInfos]);
 
     const updateCacheInfos = (path: string) => {
         setCacheInfos(
@@ -30,7 +30,7 @@ export default function ClearCachePage() {
         if (!cacheInfos) {
             ScanCache();
         }
-    }, [cacheInfos]);
+    }, [cacheInfos, ScanCache]);
 
     useEffect(() => {
         if (cacheInfos) return;
