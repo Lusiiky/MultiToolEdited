@@ -59,6 +59,7 @@ export interface TranslationsChoosen {
     PTU: string | null;
     EPTU: string | null;
     "TECH-PREVIEW": string | null;
+    "4.0_PREVIEW": string | null;
 }
 
 export const isGamePaths = (value: any): value is GamePaths => {

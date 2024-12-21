@@ -28,6 +28,8 @@ pub struct TranslationsSelected {
     eptu: Option<String>,
     #[serde(rename = "TECH-PREVIEW")]
     techpreview: Option<String>,
+    #[serde(rename = "4.0_PREVIEW")]
+    preview40: Option<String>,
 }
 
 #[command]
@@ -53,6 +55,7 @@ pub fn load_translations_selected() -> Result<TranslationsSelected, String> {
             ptu: None,
             eptu: None,
             techpreview: None,
+            preview40: None,
         });
     }
 

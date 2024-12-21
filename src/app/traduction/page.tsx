@@ -41,6 +41,7 @@ export default function Page() {
             PTU: null,
             EPTU: null,
             "TECH-PREVIEW": null,
+            "4.0_PREVIEW": null,
         });
     const [loadingButtonId, setLoadingButtonId] = useState<string | null>(null);
     const [dataFetched, setDataFetched] = useState<boolean>(false);
@@ -72,6 +73,7 @@ export default function Page() {
                         PTU: null,
                         EPTU: null,
                         "TECH-PREVIEW": null,
+                        "4.0_PREVIEW": null,
                     });
                 }
                 return true;
@@ -81,6 +83,7 @@ export default function Page() {
                     PTU: null,
                     EPTU: null,
                     "TECH-PREVIEW": null,
+                    "4.0_PREVIEW": null,
                 });
                 return false;
             }
