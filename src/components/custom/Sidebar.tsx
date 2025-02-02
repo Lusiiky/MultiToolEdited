@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { invoke } from "@tauri-apps/api/tauri";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { ColorPicker } from "./ColorPicker";
 import { Button } from "@/components/ui/button";
 import { Separator } from "@/components/ui/separator";
@@ -38,11 +38,33 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 
+import { useThemeStore } from "@/stores/themeStore";
+
+interface Theme {
+    primary_color: string;
+}
+
 export const Sidebar = () => {
     const [fullWidth, setFullWidth] = useState(false);
+    const { setPrimaryColor } = useThemeStore();
+
+    useEffect(() => {
+        async function loadTheme() {
+            try {
+                const theme: Theme = await invoke('load_theme_selected');
+                setPrimaryColor(theme.primary_color);
+            } catch (error) {
+                console.error('Failed to load theme:', error);
+            }
+        }
+
+        loadTheme();
+    }, [setPrimaryColor]);
+
     const openExternalLink = async (url: string) => {
         await invoke("open_external", { url });
     };
+
     return (
         <div
             className={`border-r bg-card relative transition-size duration-150 ${
